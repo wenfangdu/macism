@@ -37,7 +37,7 @@ jobs:
           else
             export target="aarch64"
           fi
-          swiftc -target ${target}-apple-macos10.9 -o macism-${{ matrix.arch }}
+          swiftc -target ${target}-apple-macos10.9 -o macism-${{ matrix.arch }} macism.swift
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
