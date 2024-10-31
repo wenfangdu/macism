@@ -1,7 +1,7 @@
 class Macism < Formula
   desc "MacOS Input Source Manager"
   homepage "https://github.com/laishulu/macism"
-  version "1.4.2"
+  version "1.4.3"
 
   if OS.mac?
     if Hardware::CPU.arm?
