@@ -35,8 +35,8 @@ x86_64_sha256=$(download_and_hash "macism-x86_64")
 # Update the Homebrew formula with actual SHA256 hashes and version
 sed -i.bak \
     -e "s/version \".*\"/version \"$VERSION\"/" \
-    -e "/url.*macism-arm64/{ n; s/sha256 \"[-_ a-zA-Z0-9]*\"/sha256 \"$arm64_sha256\"/; }" \
-    -e "/url.*macism-x86_64/{ n; s/sha256 \"[-_ a-zA-Z0-9]*\"/sha256 \"$x86_64_sha256\"/; }" \
+    -e "/url.*macism-arm64/{ n; s/sha256 \".*\"/sha256 \"$arm64_sha256\"/; }" \
+    -e "/url.*macism-x86_64/{ n; s/sha256 \".*\"/sha256 \"$x86_64_sha256\"/; }" \
     homebrew/macism.rb
 
 # Remove the backup file created by sed
