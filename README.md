@@ -11,7 +11,7 @@ tools (such as
 [im-select from smartim](https://github.com/ybian/smartim),
 [swim](https://github.com/mitsuse/swim)), when you switch to CJKV input source,
 you will see that the input source icon has already changed in the menu bar, but
-unless you activate other applications and then switch back, you input source is
+unless you activate other applications and then switch back, the input source is
 actually still the same as before.
 
 ## Install
