@@ -42,6 +42,7 @@ You can get the executable in any of the following ways:
 
 ## Thanks
 - [LuSrackhall](https://github.com/LuSrackhall) for his key insight in this
-  [discussion](https://github.com/rime/squirrel/issues/866#issuecomment-2800561092)
-  . Based on this insight, macism upgraded from v1 to v2.
+  [discussion](
+    https://github.com/rime/squirrel/issues/866#issuecomment-2800561092
+  ). Based on this insight, macism upgraded from v1 to v2.
 
