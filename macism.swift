@@ -4,23 +4,57 @@ import Foundation
 
 // Function to show a temporary window with text input focus
 func showTemporaryInputWindow() {
+    // Get the main screen dimensions to position the window in bottom-right
+    guard let screen = NSScreen.main else { return }
+    let screenRect = screen.visibleFrame
+
+    // Calculate bottom-right position
+    let windowWidth: CGFloat = 150
+    let windowHeight: CGFloat = 30
+    let xPos = screenRect.maxX - windowWidth - 10 // 10px margin from right
+    let yPos = screenRect.minY + 10 // 10px margin from bottom
+
     let window = NSWindow(
-        contentRect: NSRect(x: 0, y: 0, width: 200, height: 40),
+        contentRect: NSRect(
+            x: xPos, y: yPos, width: windowWidth, height: windowHeight),
         styleMask: [.borderless],
         backing: .buffered,
         defer: false
     )
-    window.level = .screenSaver
 
-    let textField = NSTextField(frame: NSRect(x: 10, y: 8, width: 180, height: 24))
+    // Set window properties for transparency and focus
+    window.isOpaque = false
+    window.backgroundColor = NSColor.clear
+    window.level = .screenSaver
+    window.ignoresMouseEvents = false
+    window.collectionBehavior = [.canJoinAllSpaces, .stationary]
+
+    // Create a smaller text field
+    let textField = NSTextField(frame: NSRect(
+        x: 5, y: 5, width: windowWidth - 10, height: windowHeight - 10))
+    textField.isBordered = false
+    textField.backgroundColor = NSColor.clear
+    textField.textColor = NSColor.clear // Make text invisible
+    textField.drawsBackground = false
+
     window.contentView?.addSubview(textField)
 
+    // Make window visible and ensure it can receive focus
     window.makeKeyAndOrderFront(nil)
     NSApp.activate(ignoringOtherApps: true)
     textField.becomeFirstResponder()
 
-    DispatchQueue.main.asyncAfter(deadline: .now()) {
+    // Asynchronously close the window after uSeconds
+    DispatchQueue.main.asyncAfter(
+        deadline: .now() + .microseconds(InputSourceManager.uSeconds)
+    ) {
         window.close()
+    }
+
+    // Run the main RunLoop until the window is closed
+    if InputSourceManager.uSeconds > 0 {
+        let waitTime = TimeInterval(InputSourceManager.uSeconds) / 1_000_000.0
+        RunLoop.main.run(until: Date(timeIntervalSinceNow: waitTime))
     }
 }
 
@@ -37,7 +71,8 @@ class InputSource: Equatable {
 
     var isCJKV: Bool {
         if let lang = tisInputSource.sourceLanguages.first {
-            return lang == "ko" || lang == "ja" || lang == "vi" || lang.hasPrefix("zh")
+            return lang == "ko" || lang == "ja" || lang == "vi" ||
+                   lang.hasPrefix("zh")
         }
         return false
     }
@@ -60,6 +95,7 @@ class InputSource: Equatable {
 
 class InputSourceManager {
     static var inputSources: [InputSource] = []
+    static var uSeconds: Int = 0
     static var keyboardOnly: Bool = true
 
     static func initialize() {
@@ -67,12 +103,14 @@ class InputSourceManager {
             .takeRetainedValue() as! [TISInputSource]
 
         inputSources = inputSourceList
-            .filter { $0.category == TISInputSource.Category.keyboardInputSource && $0.isSelectable }
+            .filter { $0.category == TISInputSource.Category.keyboardInputSource &&
+                      $0.isSelectable }
             .map { InputSource(tisInputSource: $0) }
     }
 
     static func getCurrentSource() -> InputSource {
-        return InputSource(tisInputSource: TISCopyCurrentKeyboardInputSource().takeRetainedValue())
+        return InputSource(tisInputSource:
+            TISCopyCurrentKeyboardInputSource().takeRetainedValue())
     }
 
     static func getInputSource(name: String) -> InputSource? {
@@ -89,7 +127,8 @@ extension TISInputSource {
 
     private func getProperty(_ key: CFString) -> AnyObject? {
         if let cfType = TISGetInputSourceProperty(self, key) {
-            return Unmanaged<AnyObject>.fromOpaque(cfType).takeUnretainedValue()
+            return Unmanaged<AnyObject>.fromOpaque(cfType)
+                .takeUnretainedValue()
         }
         return nil
     }
@@ -116,11 +155,21 @@ if CommandLine.arguments.count == 1 {
     let currentSource = InputSourceManager.getCurrentSource()
     print(currentSource.id)
 } else {
-    let filteredArgs = CommandLine.arguments.filter { $0.lowercased() != "--noKeyboardOnly" }
-    InputSourceManager.keyboardOnly = CommandLine.arguments.count == filteredArgs.count
-    if let dstSource = InputSourceManager.getInputSource(name: filteredArgs[1]) {
-        dstSource.select()
-    } else {
+    let filteredArgs = CommandLine.arguments.filter(
+        { $0.lowercased() != "--noKeyboardOnly".lowercased() })
+
+    InputSourceManager.keyboardOnly =
+        CommandLine.arguments.count == filteredArgs.count
+
+    let dstSource = InputSourceManager.getInputSource(
+        name: filteredArgs[1]
+    )
+
+    if dstSource == nil {
         print("Input source \(filteredArgs[1]) does not exist!")
     }
+    if filteredArgs.count == 3 {
+        InputSourceManager.uSeconds = Int(filteredArgs[2])!
+    }
+    dstSource?.select()
 }
