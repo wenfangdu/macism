@@ -9,52 +9,36 @@ func showTemporaryInputWindow() {
     let screenRect = screen.visibleFrame
 
     // Calculate bottom-right position
-    let windowWidth: CGFloat = 150
-    let windowHeight: CGFloat = 30
-    let xPos = screenRect.maxX - windowWidth - 10 // 10px margin from right
-    let yPos = screenRect.minY + 10 // 10px margin from bottom
+    let windowWidth: CGFloat = 3 // Minimal width without title bar
+    let windowHeight: CGFloat = 3 // Minimal height without title bar
+    let xPos = screenRect.maxX - windowWidth - 8 // margin from right
+    let yPos = screenRect.minY + 8 // margin from bottom
 
     let window = NSWindow(
         contentRect: NSRect(
             x: xPos, y: yPos, width: windowWidth, height: windowHeight),
-        styleMask: [.borderless],
+        styleMask: [.borderless], // Removed title bar and buttons
         backing: .buffered,
         defer: false
     )
 
-    // Set window properties for transparency and focus
-    window.isOpaque = false
-    window.backgroundColor = NSColor.clear
+    // Set window properties for visibility and focus
+    window.isOpaque = true
+    window.backgroundColor = NSColor.purple
     window.level = .screenSaver
-    window.ignoresMouseEvents = false
     window.collectionBehavior = [.canJoinAllSpaces, .stationary]
-
-    // Create a smaller text field
-    let textField = NSTextField(frame: NSRect(
-        x: 5, y: 5, width: windowWidth - 10, height: windowHeight - 10))
-    textField.isBordered = false
-    textField.backgroundColor = NSColor.clear
-    textField.textColor = NSColor.clear // Make text invisible
-    textField.drawsBackground = false
-
-    window.contentView?.addSubview(textField)
 
     // Make window visible and ensure it can receive focus
     window.makeKeyAndOrderFront(nil)
     NSApp.activate(ignoringOtherApps: true)
-    textField.becomeFirstResponder()
-
-    // Asynchronously close the window after uSeconds
-    DispatchQueue.main.asyncAfter(
-        deadline: .now() + .microseconds(InputSourceManager.uSeconds)
-    ) {
-        window.close()
-    }
 
     // Run the main RunLoop until the window is closed
     if InputSourceManager.uSeconds > 0 {
         let waitTime = TimeInterval(InputSourceManager.uSeconds) / 1_000_000.0
-        RunLoop.main.run(until: Date(timeIntervalSinceNow: waitTime))
+        DispatchQueue.main.asyncAfter(deadline: .now() + waitTime) {
+            CFRunLoopStop(CFRunLoopGetMain())
+        }
+        CFRunLoopRun()
     }
 }
 

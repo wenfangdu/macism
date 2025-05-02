@@ -39,7 +39,8 @@ You can get the executable in any of the following ways:
 3. `macism SOME_INPUT_SOURCE_ID uSECONDS` will select to `SOME_INPUT_SOURCE_ID` 
   with sleep of `uSECONDS` micro seconds. If command pattern #2 does not work in
   your case, try this with `uSECONDS` to be 20000 first, if still does not work,
-  increase it. 
+  increase it. You will see a small purple square on the bottom right of the
+  screen lasting `uSECONDS`.
 4. Add an extra option `--noKeyboardOnly` to command pattern *#2* and *#3* will 
   also enable none-keyboard input sources.
 
