@@ -21,7 +21,7 @@ You can get the executable in any of the following ways:
 - Install from brew
     ```
     brew tap laishulu/homebrew
-    brew install macism TemporaryWindow 
+    brew install macism temporary-window
     ```
 
 - compile by yourself
