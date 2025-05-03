@@ -20,6 +20,14 @@ jobs:
             artifact_name: macism-arm64
             asset_name: macism-arm64
             arch: arm64
+          - os: macos-latest
+            artifact_name: TemporaryWindow-x86_64.zip
+            asset_name: TemporaryWindow-x86_64
+            arch: x86_64
+          - os: macos-latest
+            artifact_name: TemporaryWindow-arm64.zip
+            asset_name: TemporaryWindow-arm64
+            arch: arm64
 
     steps:
       - name: Checkout repository
@@ -32,12 +40,17 @@ jobs:
       - name: Build
         run: |
           target=""
-          if [[ ( "${{ matrix.arch }}" == "x86_64" ) ]]; then
+          if [[ "${{ matrix.arch }}" == "x86_64" ]]; then
             export target="x86_64"
           else
             export target="aarch64"
           fi
-          swiftc -target ${target}-apple-macos11 -o macism-${{ matrix.arch }} macism.swift
+          # Use Makefile to build with the appropriate target architecture
+          make all SWIFTC="swiftc -target ${target}-apple-macos11"
+          # Rename macism binary to include architecture for artifact upload
+          mv macism macism-${{ matrix.arch }}
+          # Zip TemporaryWindow.app with architecture suffix for artifact upload
+          zip -r TemporaryWindow-${{ matrix.arch }}.zip TemporaryWindow.app
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -73,14 +86,26 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
 
-      - name: Upload Release Asset X86_64
+      - name: Upload Release Asset macism-x86_64
         uses: softprops/action-gh-release@v2
         with:
           token: ${{ secrets.RELEASE_TOKEN }}
           files: macism-x86_64/macism-x86_64
 
-      - name: Upload Release Asset Arm64
+      - name: Upload Release Asset macism-arm64
         uses: softprops/action-gh-release@v2
         with:
           token: ${{ secrets.RELEASE_TOKEN }}
           files: macism-arm64/macism-arm64
+
+      - name: Upload Release Asset TemporaryWindow-x86_64
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ secrets.RELEASE_TOKEN }}
+          files: TemporaryWindow-x86_64/TemporaryWindow-x86_64.zip
+
+      - name: Upload Release Asset TemporaryWindow-arm64
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ secrets.RELEASE_TOKEN }}
+          files: TemporaryWindow-arm64/TemporaryWindow-arm64.zip

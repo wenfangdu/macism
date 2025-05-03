@@ -21,26 +21,27 @@ You can get the executable in any of the following ways:
 - Install from brew
     ```
     brew tap laishulu/homebrew
-    brew install macism
+    brew install macism TemporaryWindow 
     ```
 
 - compile by yourself
     ```
     git clone https://github.com/laishulu/macism
     cd macism
-    swiftc macism.swift
+    make
     ```
 - download the executable directly from 
     [github](https://github.com/laishulu/macism/releases)
     
 ## Usage
-1. `macism` will output the current input source
-2. `macism SOME_INPUT_SOURCE_ID` will select to `SOME_INPUT_SOURCE_ID`.
-3. `macism SOME_INPUT_SOURCE_ID uSECONDS` will select to `SOME_INPUT_SOURCE_ID` 
-  with sleep of `uSECONDS` micro seconds. If command pattern #2 does not work in
-  your case, try this with `uSECONDS` to be 20000 first, if still does not work,
-  increase it. You will see a small purple square on the bottom right of the
-  screen lasting `uSECONDS`.
+1. `macism`: output the current input source
+2. `macism SOME_INPUT_SOURCE_ID`: switch to `SOME_INPUT_SOURCE_ID`.
+3. `macism SOME_INPUT_SOURCE_ID mSECONDS` (in case *#2* dos not work): switch to
+   `SOME_INPUT_SOURCE_ID`, then open `TemporaryWindow.app` with envrionmen
+   variable `MACISM_WAIT_TIME_MS` of value `mSECONDS`. You will see a small
+   purple bar on the bottom right of the screen lasting `mSECONDS`. `mSECONDS=1`
+   should work in most cases, if it does not work, increase it and test until it
+   works. 
 4. Add an extra option `--noKeyboardOnly` to command pattern *#2* and *#3* will 
   also enable none-keyboard input sources.
 
