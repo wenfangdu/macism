@@ -52,15 +52,17 @@ sed -i.bak \
 # Remove the backup file created by sed for macism
 rm homebrew/macism.rb.bak
 
-# Update the TemporaryWindow Homebrew formula with actual SHA256 hashes and version
+# Update the TemporaryWindow Cask with version and SHA256 hashes
 sed -i.bak \
     -e "s/version \".*\"/version \"$VERSION\"/" \
     -e "/url.*TemporaryWindow-arm64.zip/{ n; s/sha256 \".*\"/sha256 \"$tempwindow_arm64_sha256\"/; }" \
     -e "/url.*TemporaryWindow-x86_64.zip/{ n; s/sha256 \".*\"/sha256 \"$tempwindow_x86_64_sha256\"/; }" \
-    homebrew/temporary-window.rb
+    homebrew/Casks/temporary-window.rb
 
-# Remove the backup file created by sed for TemporaryWindow
-rm homebrew/temporary-window.rb.bak
+# Remove the backup file created by sed for TemporaryWindow Cask
+rm homebrew/Casks/temporary-window.rb.bak
 
-echo "Updated Homebrew formulas with actual SHA256 hashes for macism and TemporaryWindow"
+echo "Updated Homebrew formula for macism and Cask for TemporaryWindow with actual SHA256 hashes"
+echo "SHA256 for TemporaryWindow arm64: $tempwindow_arm64_sha256"
+echo "SHA256 for TemporaryWindow x86_64: $tempwindow_x86_64_sha256"
 echo "Please review the changes, commit, and push them to GitHub"
