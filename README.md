@@ -44,7 +44,11 @@ You can get the executable in any of the following ways:
    should work in most cases, if it does not work, increase it and test until it
    works. 
 4. Add an extra option `--noKeyboardOnly` to command pattern *#2* and *#3* will 
-  also enable none-keyboard input sources.
+   also enable none-keyboard input sources.
+5. `TemporaryWindow.app` can be used out of `macism`, e.g.
+   `MACISM_WAIT_TIME_MS=5000 open /Applications/TemporaryWindow.app` to switch
+   focus away from your current application to the temporary window for 5s and
+   then switch back. So you can use it with other tools lacking this ability. 
 
 ## Thanks
 - [LuSrackhall](https://github.com/LuSrackhall) for his key insight in this
