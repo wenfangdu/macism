@@ -103,7 +103,7 @@ extension TISInputSource {
 func launchTemporaryWindowApp(waitTimeMs: Int) {
     let process = Process()
     process.executableURL = URL(fileURLWithPath: "/usr/bin/open")
-    process.arguments = ["TemporaryWindow.app"]
+    process.arguments = ["/Applications/TemporaryWindow.app"]
     process.environment = ["MACISM_WAIT_TIME_MS": String(waitTimeMs)]
     do {
         try process.run()
