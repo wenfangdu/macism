@@ -67,22 +67,27 @@ jobs:
         id: get_version
         run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
-      - name: Install GitHub CLI
-        run: |
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-          sudo apt-add-repository https://cli.github.com/packages
-          sudo apt update
-          sudo apt install gh
-
       - name: Delete Existing Release if it Exists
         env:
-          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          REPO: ${{ github.repository }}
+          TAG: ${{ steps.get_version.outputs.VERSION }}
         run: |
-          if gh release view ${{ steps.get_version.outputs.VERSION }} --repo ${{ github.repository }}; then
-            echo "Release for tag ${{ steps.get_version.outputs.VERSION }} exists. Deleting it..."
-            gh release delete ${{ steps.get_version.outputs.VERSION }} --repo ${{ github.repository }} --yes
+          # Get the release ID for the tag if it exists
+          RESPONSE=$(curl -s -H "Authorization: token $TOKEN" \
+                          -H "Accept: application/vnd.github.v3+json" \
+                          "https://api.github.com/repos/$REPO/releases/tags/$TAG")
+          RELEASE_ID=$(echo "$RESPONSE" | grep -oP '(?<="id": )\d+' | head -1)
+
+          if [ -n "$RELEASE_ID" ]; then
+            echo "Release for tag $TAG exists (ID: $RELEASE_ID). Deleting it..."
+            curl -s -X DELETE \
+                 -H "Authorization: token $TOKEN" \
+                 -H "Accept: application/vnd.github.v3+json" \
+                 "https://api.github.com/repos/$REPO/releases/$RELEASE_ID"
+            echo "Existing release deleted."
           else
-            echo "No existing release found for tag ${{ steps.get_version.outputs.VERSION }}."
+            echo "No existing release found for tag $TAG."
           fi
 
       - name: Create Release
