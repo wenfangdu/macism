@@ -45,11 +45,8 @@ jobs:
           else
             export target="aarch64"
           fi
-          # Use Makefile to build with the appropriate target architecture
           make all SWIFTC="swiftc -target ${target}-apple-macos11"
-          # Rename macism binary to include architecture for artifact upload
           mv macism macism-${{ matrix.arch }}
-          # Zip TemporaryWindow.app with architecture suffix for artifact upload
           zip -r TemporaryWindow-${{ matrix.arch }}.zip TemporaryWindow.app
 
       - name: Upload artifacts
@@ -69,6 +66,24 @@ jobs:
       - name: Get version
         id: get_version
         run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Install GitHub CLI
+        run: |
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+          sudo apt-add-repository https://cli.github.com/packages
+          sudo apt update
+          sudo apt install gh
+
+      - name: Delete Existing Release if it Exists
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: |
+          if gh release view ${{ steps.get_version.outputs.VERSION }} --repo ${{ github.repository }}; then
+            echo "Release for tag ${{ steps.get_version.outputs.VERSION }} exists. Deleting it..."
+            gh release delete ${{ steps.get_version.outputs.VERSION }} --repo ${{ github.repository }} --yes
+          else
+            echo "No existing release found for tag ${{ steps.get_version.outputs.VERSION }}."
+          fi
 
       - name: Create Release
         id: create_release
