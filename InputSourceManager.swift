@@ -54,7 +54,7 @@ class InputSource: Equatable {
 
 class InputSourceManager {
     static var inputSources: [InputSource] = []
-    static var waitTimeMs: Int = 0
+    static var waitTimeMs: Int = -1 // less than 0 means using default
     static var level: Int = 1
     static var keyboardOnly: Bool = true
 

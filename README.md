@@ -63,8 +63,7 @@ Try level 1, if it does not work, than try level 2, then level 3.
 
 An extra argument `mSECONDS` is optional. e.g. `macism SOME_INPUT_SOURCE_ID
 mSECONDS`. A small purple bar on the bottom right of the screen will last for
-`mSECONDS`. `mSECONDS=1` should work in most cases, if it does not work, 
-increase it and do your own test. 
+`mSECONDS`, default to be `1`.
 
 An extra option `--noKeyboardOnly` will also enable none-keyboard input
 sources.

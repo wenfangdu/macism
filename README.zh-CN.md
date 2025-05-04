@@ -57,8 +57,7 @@ macism
   ```
 
 额外的参数 `mSECONDS` 是可选的，例如 `macism SOME_INPUT_SOURCE_ID mSECONDS`。屏
-幕右下角会出现一个小的紫色条，持续 `mSECONDS` 毫秒。大多数情况下 `mSECONDS=1` 即
-可生效，如果不起作用，可以增加数值并自行测试。 
+幕右下角会出现一个小的紫色条，持续 `mSECONDS` 毫秒，默认值是 `1`。 
 
 额外的选项 `--noKeyboardOnly` 还将启用非键盘输入源。
 
