@@ -1,3 +1,4 @@
+[中文](https://github.com/laishulu/macism/blob/master/README.zh-CN.md)
 # MacOS Input Source Manager
 
 This tool manages macOS input sources from the command line, ideal for
