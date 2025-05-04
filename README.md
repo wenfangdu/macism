@@ -22,7 +22,6 @@ You can get the executable in any of the following ways:
     ```
     brew tap laishulu/homebrew
     brew install macism
-    brew install --cask temporary-window
     ```
 
 - compile by yourself
@@ -42,18 +41,23 @@ macism
 ### Switch input source
 Try level 1, if it does not work, than try level 2, then level 3.
 
--  Level 1
-   ```
-   macism SOME_INPUT_SOURCE_ID
-   ```
--  Level 2
-   ```
-   macism --l2 SOME_INPUT_SOURCE_ID
-   ```
--  Level 3
-   ```
-   macism --l3 SOME_INPUT_SOURCE_ID
-   ```
+- Level 1
+  ```
+  macism SOME_INPUT_SOURCE_ID
+  ```
+- Level 2
+  ```
+  macism --l2 SOME_INPUT_SOURCE_ID
+  ```
+- Level 3
+  Should install `TemporaryWindow.app` first.
+  ```
+  brew install --cask temporary-window 
+  ```
+  Then you can use level 3.
+  ```
+  macism --l3 SOME_INPUT_SOURCE_ID
+  ```
 
 An extra argument `mSECONDS` is optional. e.g. `macism SOME_INPUT_SOURCE_ID
 mSECONDS`. A small purple bar on the bottom right of the screen will last for
