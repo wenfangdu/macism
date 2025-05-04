@@ -1,3 +1,5 @@
+[English](https://github.com/laishulu/macism/blob/master/README.md)
+![CI](https://github.com/laishulu/doom/actions/workflows/release.yml/badge.svg)
 # macOS 输入源管理器
 
 这个工具可以从命令行管理 macOS 的输入源，非常适合与 `vim` 和 `emacs` 集成（例如 [sis](https://github.com/laishulu/emacs-smart-input-source)）。
