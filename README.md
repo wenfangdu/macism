@@ -1,5 +1,5 @@
 [中文](https://github.com/laishulu/macism/blob/master/README.zh-CN.md)
-![CI](https://github.com/laishulu/doom/actions/workflows/release.yml/badge.svg)
+![CI](https://github.com/laishulu/macism/actions/workflows/release.yml/badge.svg)
 # MacOS Input Source Manager
 
 This tool manages macOS input sources from the command line, ideal for
