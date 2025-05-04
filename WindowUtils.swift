@@ -42,7 +42,7 @@ func showTemporaryInputWindow(waitTimeMs: Int) {
     // Force the app to activate and take focus, even if other apps are in front
     app.activate(ignoringOtherApps: true)
     // Handle wait time and app termination
-    let waitTime = waitTimeMs < 0 ? 1 : waitTimeMs
+    let waitTime = waitTimeMs < 0 ? 5 : waitTimeMs
     let waitTimeSeconds = TimeInterval(waitTime) / 1000.0
     DispatchQueue.main.asyncAfter(deadline: .now() + waitTimeSeconds) {
         // Terminate the application

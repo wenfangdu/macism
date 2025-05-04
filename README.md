@@ -42,15 +42,15 @@ macism
 ### Switch input source
 Try level 1, if it does not work, than try level 2, then level 3.
 
-- Level 1
+- Level 1: simulate japanese_kana on JIS keyboard 
   ```
   macism SOME_INPUT_SOURCE_ID
   ```
-- Level 2
+- Level 2: switch focus. In process, thus light weight but synchronous.
   ```
   macism --l2 SOME_INPUT_SOURCE_ID
   ```
-- Level 3
+- Level 3: switch focus. Standalone app, thus heavy weight but asynchronous.
 
   Should install `TemporaryWindow.app` first.
   ```
@@ -62,8 +62,8 @@ Try level 1, if it does not work, than try level 2, then level 3.
   ```
 
 An extra argument `mSECONDS` is optional. e.g. `macism SOME_INPUT_SOURCE_ID
-mSECONDS`. A small purple bar on the bottom right of the screen will last for
-`mSECONDS`, default to be `1`.
+mSECONDS`, default to be `5`. For level 2 and 3, also show a small purple bar on
+the bottom right of the screen.
 
 An extra option `--noKeyboardOnly` will also enable none-keyboard input
 sources.
