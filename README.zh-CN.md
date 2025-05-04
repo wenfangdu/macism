@@ -1,4 +1,5 @@
 ![CI](https://github.com/laishulu/macism/actions/workflows/release.yml/badge.svg)
+
 [[English](https://github.com/laishulu/macism/blob/master/README.md)]
 # MacOS 输入源管理器 
 

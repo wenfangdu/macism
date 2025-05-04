@@ -1,4 +1,5 @@
 ![CI](https://github.com/laishulu/macism/actions/workflows/release.yml/badge.svg)
+
 [[中文](https://github.com/laishulu/macism/blob/master/README.zh-CN.md)]
 # MacOS Input Source Manager
 
