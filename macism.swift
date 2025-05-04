@@ -10,23 +10,40 @@ struct MacISM {
             let currentSource = InputSourceManager.getCurrentSource()
             print(currentSource.id)
         } else {
-            let filteredArgs = CommandLine.arguments.filter(
-                { $0.lowercased() != "--noKeyboardOnly".lowercased() })
+            // Process command line arguments for flags
+            let arguments = CommandLine.arguments
+            InputSourceManager.keyboardOnly = !arguments.contains {
+                $0.caseInsensitiveCompare("--noKeyboardOnly") == .orderedSame
+            }
+            let isLevel3 = arguments.contains {
+                $0.caseInsensitiveCompare("--l3") == .orderedSame
+            }
+            let isLevel2 = arguments.contains {
+                $0.caseInsensitiveCompare("--l2") == .orderedSame
+            }
+            InputSourceManager.level = isLevel3 ? 3 : isLevel2 ? 2 : 1
 
-            InputSourceManager.keyboardOnly =
-                CommandLine.arguments.count == filteredArgs.count
+            // Filter out flag arguments to get the input source name
+            let filteredArgs = arguments.filter { !$0.hasPrefix("--") }
+            
+            if filteredArgs.count < 2 {
+                print("No input source name provided!")
+                return
+            }
 
-            let dstSource = InputSourceManager.getInputSource(
+            guard let dstSource = InputSourceManager.getInputSource(
                 name: filteredArgs[1]
-            )
-
-            if dstSource == nil {
+            ) else {
                 print("Input source \(filteredArgs[1]) does not exist!")
+                return
             }
-            if filteredArgs.count == 3 {
-                InputSourceManager.waitTimeMs = Int(filteredArgs[2])!
+
+            // Set wait time if provided
+            if filteredArgs.count == 3, let waitTime = Int(filteredArgs[2]) {
+                InputSourceManager.waitTimeMs = waitTime
             }
-            dstSource?.select()
+            
+            dstSource.select()
         }
     }
 }

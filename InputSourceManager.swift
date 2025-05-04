@@ -32,11 +32,21 @@ class InputSource: Equatable {
         }
         TISSelectInputSource(tisInputSource)
         if self.isCJKV {
-            if InputSourceManager.waitTimeMs == 0 {
-                showTemporaryInputWindow(waitTimeMs: 0)
-            } else {
-                // Launch TemporaryWindow.app asynchronously with environment variable
-                launchTemporaryWindowApp(waitTimeMs: InputSourceManager.waitTimeMs)
+            switch InputSourceManager.level {
+            case 2:
+                showTemporaryInputWindow_l2(waitTimeMs: InputSourceManager.waitTimeMs)
+            case 3:
+                let process = Process()
+                process.executableURL = URL(fileURLWithPath: "/usr/bin/open")
+                process.arguments = ["/Applications/TemporaryWindow.app"]
+                process.environment = ["MACISM_WAIT_TIME_MS": String(InputSourceManager.waitTimeMs)]
+                do {
+                    try process.run()
+                } catch {
+                    print("Error launching TemporaryWindow.app: \(error)")
+                }
+            default:
+                showTemporaryInputWindow_l1(waitTimeMs: InputSourceManager.waitTimeMs)
             }
         }
     }
@@ -45,6 +55,7 @@ class InputSource: Equatable {
 class InputSourceManager {
     static var inputSources: [InputSource] = []
     static var waitTimeMs: Int = 0
+    static var level: Int = 1
     static var keyboardOnly: Bool = true
 
     static func initialize() {
@@ -96,18 +107,5 @@ extension TISInputSource {
 
     var sourceLanguages: [String] {
         return getProperty(kTISPropertyInputSourceLanguages) as! [String]
-    }
-}
-
-// Function to launch TemporaryWindow.app asynchronously with the specified waitTimeMs
-func launchTemporaryWindowApp(waitTimeMs: Int) {
-    let process = Process()
-    process.executableURL = URL(fileURLWithPath: "/usr/bin/open")
-    process.arguments = ["/Applications/TemporaryWindow.app"]
-    process.environment = ["MACISM_WAIT_TIME_MS": String(waitTimeMs)]
-    do {
-        try process.run()
-    } catch {
-        print("Error launching TemporaryWindow.app: \(error)")
     }
 }

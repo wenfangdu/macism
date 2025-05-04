@@ -35,20 +35,39 @@ You can get the executable in any of the following ways:
     [github](https://github.com/laishulu/macism/releases)
     
 ## Usage
-1. `macism`: output the current input source
-2. `macism SOME_INPUT_SOURCE_ID`: switch to `SOME_INPUT_SOURCE_ID`.
-3. `macism SOME_INPUT_SOURCE_ID mSECONDS` (in case *#2* dos not work): switch to
-   `SOME_INPUT_SOURCE_ID`, then open `TemporaryWindow.app` with envrionmen
-   variable `MACISM_WAIT_TIME_MS` of value `mSECONDS`. You will see a small
-   purple bar on the bottom right of the screen lasting `mSECONDS`. `mSECONDS=1`
-   should work in most cases, if it does not work, increase it and test until it
-   works. 
-4. Add an extra option `--noKeyboardOnly` to command pattern *#2* and *#3* will 
-   also enable none-keyboard input sources.
-5. `TemporaryWindow.app` can be used out of `macism`, e.g.
-   `MACISM_WAIT_TIME_MS=5000 open /Applications/TemporaryWindow.app` to switch
-   focus away from your current application to the temporary window for 5s and
-   then switch back. So you can use it with other tools lacking this ability. 
+### Get current input source
+```sh
+macism
+```
+### Switch input source
+Try level 1, if it does not work, than try level 2, then level 3.
+
+-  Level 1
+   ```
+   macism SOME_INPUT_SOURCE_ID
+   ```
+-  Level 2
+   ```
+   macism --l2 SOME_INPUT_SOURCE_ID
+   ```
+-  Level 3
+   ```
+   macism --l3 SOME_INPUT_SOURCE_ID
+   ```
+
+you can also add a wait time argument, e.g. `macism SOME_INPUT_SOURCE_ID
+mSECONDS`. You will see a small purple bar on the bottom right of the screen
+lasting `mSECONDS`. `mSECONDS=1` should work in most cases, if it does not work,
+increase it and test until it works. 
+
+Add an extra option `--noKeyboardOnly` to command pattern *#2* and *#3* will
+also enable none-keyboard input sources. 
+
+### TemporaryWindow.app
+`TemporaryWindow.app` can be used out of `macism`, e.g.
+`MACISM_WAIT_TIME_MS=5000 open /Applications/TemporaryWindow.app` to switch
+focus away from your current application to the temporary window for 5s and then
+switch back. So you can use it with other tools lacking this ability.
 
 ## Thanks
 - [LuSrackhall](https://github.com/LuSrackhall) for his key insight in this

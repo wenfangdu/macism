@@ -10,6 +10,6 @@ struct TemporaryWindowApp {
             waitTimeMs = waitTime
         }        
         // Call the function to show the temporary window (defined in WindowUtils.swift)
-        showTemporaryInputWindow(waitTimeMs: waitTimeMs)
+        showTemporaryInputWindow_l2(waitTimeMs: waitTimeMs)
     }
 }
