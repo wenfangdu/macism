@@ -1,5 +1,6 @@
 ![CI](https://github.com/laishulu/macism/actions/workflows/release.yml/badge.svg)
-# MacOS Input Source Manager [[中文](https://github.com/laishulu/macism/blob/master/README.zh-CN.md)]
+[[中文](https://github.com/laishulu/macism/blob/master/README.zh-CN.md)]
+# MacOS Input Source Manager
 
 This tool manages macOS input sources from the command line, ideal for
 integration with `vim` and `emacs`(e.g. 
