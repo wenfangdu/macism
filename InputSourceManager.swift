@@ -30,30 +30,33 @@ class InputSource: Equatable {
         if currentSource.id == self.id {
             return
         }
-
-        if InputSourceManager.level == 1 {
-           simulateJapaneseKanaKeyPress(waitTimeMs: InputSourceManager.waitTimeMs)
+        // fcitx and non-CJKV don't need special treat
+        if !self.isCJKV || self.id == "org.fcitx.inputmethod.Fcitx5.fcitx5" {
+            TISSelectInputSource(tisInputSource)
+            return
         }
 
-        TISSelectInputSource(tisInputSource)
-
-        if self.isCJKV {
-            switch InputSourceManager.level {
-            case 2:
-                showTemporaryInputWindow(waitTimeMs: InputSourceManager.waitTimeMs)
-            case 3:
-                let process = Process()
-                process.executableURL = URL(fileURLWithPath: "/usr/bin/open")
-                process.arguments = ["/Applications/TemporaryWindow.app"]
-                process.environment = ["MACISM_WAIT_TIME_MS": String(InputSourceManager.waitTimeMs)]
-                do {
-                    try process.run()
-                } catch {
-                    print("Error launching TemporaryWindow.app: \(error)")
-                }
-            default:
-                break
+        switch InputSourceManager.level {
+        case 1:
+            simulateJapaneseKanaKeyPress(waitTimeMs: InputSourceManager.waitTimeMs)
+            TISSelectInputSource(tisInputSource)
+        case 2:
+            TISSelectInputSource(tisInputSource)
+            showTemporaryInputWindow(waitTimeMs: InputSourceManager.waitTimeMs)
+        case 3:
+            TISSelectInputSource(tisInputSource)
+            let process = Process()
+            process.executableURL = URL(fileURLWithPath: "/usr/bin/open")
+            process.arguments = ["/Applications/TemporaryWindow.app"]
+            process.environment = ["MACISM_WAIT_TIME_MS":
+                                   String(InputSourceManager.waitTimeMs)]
+            do {
+                try process.run()
+            } catch {
+                print("Error launching TemporaryWindow.app: \(error)")
             }
+        default:
+            break
         }
     }
 }
