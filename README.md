@@ -50,6 +50,7 @@ Try level 1, if it does not work, than try level 2, then level 3.
   macism --l2 SOME_INPUT_SOURCE_ID
   ```
 - Level 3
+
   Should install `TemporaryWindow.app` first.
   ```
   brew install --cask temporary-window 
