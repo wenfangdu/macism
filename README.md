@@ -55,19 +55,19 @@ Try level 1, if it does not work, than try level 2, then level 3.
    macism --l3 SOME_INPUT_SOURCE_ID
    ```
 
-you can also add a wait time argument, e.g. `macism SOME_INPUT_SOURCE_ID
-mSECONDS`. You will see a small purple bar on the bottom right of the screen
-lasting `mSECONDS`. `mSECONDS=1` should work in most cases, if it does not work,
-increase it and test until it works. 
+An extra argument `mSECONDS` is optional. e.g. `macism SOME_INPUT_SOURCE_ID
+mSECONDS`. A small purple bar on the bottom right of the screen will last for
+`mSECONDS`. `mSECONDS=1` should work in most cases, if it does not work, 
+increase it and do your own test. 
 
-Add an extra option `--noKeyboardOnly` to command pattern *#2* and *#3* will
-also enable none-keyboard input sources. 
+An extra option `--noKeyboardOnly` will also enable none-keyboard input
+sources.
 
 ### TemporaryWindow.app
 `TemporaryWindow.app` can be used out of `macism`, e.g.
 `MACISM_WAIT_TIME_MS=5000 open /Applications/TemporaryWindow.app` to switch
-focus away from your current application to the temporary window for 5s and then
-switch back. So you can use it with other tools lacking this ability.
+focus away from your current application to the temporary window for *5s* and
+then switch back. So you can use it with other tools lacking this ability.
 
 ## Thanks
 - [LuSrackhall](https://github.com/LuSrackhall) for his key insight in this
