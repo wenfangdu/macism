@@ -75,8 +75,12 @@ focus away from your current application to the temporary window for *5s* and
 then switch back. So you can use it with other tools lacking this ability.
 
 ## Thanks
+- [zzzchuu](https://github.com/zzzchuu) introduced a new way in this
+  [discussion](
+    https://github.com/laishulu/macism/issues/24#issuecomment-2849317891
+  ). So we have level 1 mode.
 - [LuSrackhall](https://github.com/LuSrackhall) for his key insight in this
   [discussion](
     https://github.com/rime/squirrel/issues/866#issuecomment-2800561092
-  ). Based on this insight, macism upgraded from v1 to v2.
+  ). So we have level 2 and level 3 mode. 
 
