@@ -17,6 +17,9 @@ func createWindow(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat ) -> N
     window.level = .screenSaver // High window level to ensure visibility
     window.collectionBehavior = [.canJoinAllSpaces, .stationary]
 
+    // Make window visible, bring it to front, and ensure it becomes the key window
+    window.makeKeyAndOrderFront(nil)
+
     return window
 }
 
