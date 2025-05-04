@@ -30,11 +30,17 @@ class InputSource: Equatable {
         if currentSource.id == self.id {
             return
         }
+
+        if InputSourceManager.level == 1 {
+           simulateJapaneseKanaKeyPress(waitTimeMs: InputSourceManager.waitTimeMs)
+        }
+
         TISSelectInputSource(tisInputSource)
+
         if self.isCJKV {
             switch InputSourceManager.level {
             case 2:
-                showTemporaryInputWindow_l2(waitTimeMs: InputSourceManager.waitTimeMs)
+                showTemporaryInputWindow(waitTimeMs: InputSourceManager.waitTimeMs)
             case 3:
                 let process = Process()
                 process.executableURL = URL(fileURLWithPath: "/usr/bin/open")
@@ -46,7 +52,7 @@ class InputSource: Equatable {
                     print("Error launching TemporaryWindow.app: \(error)")
                 }
             default:
-                showTemporaryInputWindow_l1(waitTimeMs: InputSourceManager.waitTimeMs)
+                break
             }
         }
     }
