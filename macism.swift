@@ -12,20 +12,25 @@ struct MacISM {
         } else {
             // Process command line arguments for flags
             let arguments = CommandLine.arguments
-            InputSourceManager.keyboardOnly = !arguments.contains {
-                $0.caseInsensitiveCompare("--noKeyboardOnly") == .orderedSame
+            InputSourceManager.keyboardOnly = !arguments.contains { arg in
+                arg.caseInsensitiveCompare("--noKeyboardOnly") == .orderedSame
             }
-            let isLevel3 = arguments.contains {
-                $0.caseInsensitiveCompare("--l3") == .orderedSame
+
+            let isLevel3 = arguments.contains { arg in
+                arg.caseInsensitiveCompare("--l3") == .orderedSame
             }
-            let isLevel2 = arguments.contains {
-                $0.caseInsensitiveCompare("--l2") == .orderedSame
+
+            let isLevel2 = arguments.contains { arg in
+                arg.caseInsensitiveCompare("--l2") == .orderedSame
             }
+
             InputSourceManager.level = isLevel3 ? 3 : isLevel2 ? 2 : 1
 
             // Filter out flag arguments to get the input source name
-            let filteredArgs = arguments.filter { !$0.hasPrefix("--") }
-            
+            let filteredArgs = arguments.filter { arg in
+                !arg.hasPrefix("--")
+            }
+
             if filteredArgs.count < 2 {
                 print("No input source name provided!")
                 return
@@ -42,7 +47,7 @@ struct MacISM {
             if filteredArgs.count == 3, let waitTime = Int(filteredArgs[2]) {
                 InputSourceManager.waitTimeMs = waitTime
             }
-            
+
             dstSource.select()
         }
     }

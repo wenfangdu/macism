@@ -3,7 +3,10 @@ import Foundation
 import Carbon
 
 class InputSource: Equatable {
-    static func == (lhs: InputSource, rhs: InputSource) -> Bool {
+    static func == (
+        lhs: InputSource,
+        rhs: InputSource
+    ) -> Bool {
         return lhs.id == rhs.id
     }
 
@@ -15,7 +18,9 @@ class InputSource: Equatable {
 
     var isCJKV: Bool {
         if let lang = tisInputSource.sourceLanguages.first {
-            return lang == "ko" || lang == "ja" || lang == "vi" ||
+            return lang == "ko" ||
+                   lang == "ja" ||
+                   lang == "vi" ||
                    lang.hasPrefix("zh")
         }
         return false
@@ -31,29 +36,41 @@ class InputSource: Equatable {
             return
         }
         // fcitx and non-CJKV don't need special treat
-        if !self.isCJKV || self.id == "org.fcitx.inputmethod.Fcitx5.fcitx5" {
+        if !self.isCJKV ||
+           self.id == "org.fcitx.inputmethod.Fcitx5.fcitx5" {
             TISSelectInputSource(tisInputSource)
             return
         }
 
         switch InputSourceManager.level {
         case 1:
-            simulateJapaneseKanaKeyPress(waitTimeMs: InputSourceManager.waitTimeMs)
+            simulateJapaneseKanaKeyPress(
+                waitTimeMs: InputSourceManager.waitTimeMs
+            )
             TISSelectInputSource(tisInputSource)
         case 2:
             TISSelectInputSource(tisInputSource)
-            showTemporaryInputWindow(waitTimeMs: InputSourceManager.waitTimeMs)
+            showTemporaryInputWindow(
+                waitTimeMs: InputSourceManager.waitTimeMs
+            )
         case 3:
             TISSelectInputSource(tisInputSource)
             let process = Process()
-            process.executableURL = URL(fileURLWithPath: "/usr/bin/open")
-            process.arguments = ["/Applications/TemporaryWindow.app"]
-            process.environment = ["MACISM_WAIT_TIME_MS":
-                                   String(InputSourceManager.waitTimeMs)]
+            process.executableURL = URL(
+                fileURLWithPath: "/usr/bin/open"
+            )
+            process.arguments = [
+                "/Applications/TemporaryWindow.app"
+            ]
+            process.environment = [
+                "MACISM_WAIT_TIME_MS":
+                    String(InputSourceManager.waitTimeMs)
+            ]
             do {
                 try process.run()
             } catch {
-                print("Error launching TemporaryWindow.app: \(error)")
+                print("Error launching " +
+                      "TemporaryWindow.app: \(error)")
             }
         default:
             break
@@ -63,23 +80,30 @@ class InputSource: Equatable {
 
 class InputSourceManager {
     static var inputSources: [InputSource] = []
-    static var waitTimeMs: Int = -1 // less than 0 means using default
+    static var waitTimeMs: Int = -1  // less than 0 means using default
     static var level: Int = 1
     static var keyboardOnly: Bool = true
 
     static func initialize() {
-        let inputSourceList = TISCreateInputSourceList(nil, false)
-            .takeRetainedValue() as! [TISInputSource]
+        let inputSourceList = TISCreateInputSourceList(
+            nil, false
+        ).takeRetainedValue() as! [TISInputSource]
 
         inputSources = inputSourceList
-            .filter { $0.category == TISInputSource.Category.keyboardInputSource &&
-                      $0.isSelectable }
+            .filter {
+                $0.category ==
+                    TISInputSource.Category.keyboardInputSource &&
+                $0.isSelectable
+            }
             .map { InputSource(tisInputSource: $0) }
     }
 
     static func getCurrentSource() -> InputSource {
-        return InputSource(tisInputSource:
-            TISCopyCurrentKeyboardInputSource().takeRetainedValue())
+        return InputSource(
+            tisInputSource:
+                TISCopyCurrentKeyboardInputSource()
+                .takeRetainedValue()
+        )
     }
 
     static func getInputSource(name: String) -> InputSource? {
@@ -96,7 +120,8 @@ extension TISInputSource {
 
     private func getProperty(_ key: CFString) -> AnyObject? {
         if let cfType = TISGetInputSourceProperty(self, key) {
-            return Unmanaged<AnyObject>.fromOpaque(cfType)
+            return Unmanaged<AnyObject>
+                .fromOpaque(cfType)
                 .takeUnretainedValue()
         }
         return nil
@@ -111,7 +136,9 @@ extension TISInputSource {
     }
 
     var isSelectable: Bool {
-        return getProperty(kTISPropertyInputSourceIsSelectCapable) as! Bool
+        return getProperty(
+            kTISPropertyInputSourceIsSelectCapable
+        ) as! Bool
     }
 
     var sourceLanguages: [String] {

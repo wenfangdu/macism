@@ -1,3 +1,4 @@
+
 import CoreGraphics
 import Foundation
 
@@ -12,13 +13,21 @@ func simulateJapaneseKanaKeyPress(waitTimeMs: Int) {
     }
 
     // Simulate key down event
-    guard let keyDownEvent = CGEvent(keyboardEventSource: eventSource, virtualKey: keyCode, keyDown: true) else {
+    guard let keyDownEvent = CGEvent(
+        keyboardEventSource: eventSource,
+        virtualKey: keyCode,
+        keyDown: true
+    ) else {
         print("Failed to create key down event")
         return
     }
 
     // Simulate key up event
-    guard let keyUpEvent = CGEvent(keyboardEventSource: eventSource, virtualKey: keyCode, keyDown: false) else {
+    guard let keyUpEvent = CGEvent(
+        keyboardEventSource: eventSource,
+        virtualKey: keyCode,
+        keyDown: false
+    ) else {
         print("Failed to create key up event")
         return
     }
