@@ -37,7 +37,11 @@ You can get the executable in any of the following ways:
     [github](https://github.com/laishulu/macism/releases)
     
 ## Usage
-### Get current input source
+### Show version
+```sh
+macism --version
+```
+### Show current input source
 ```sh
 macism
 ```

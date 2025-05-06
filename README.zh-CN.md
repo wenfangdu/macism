@@ -33,7 +33,11 @@
 - 直接从 [GitHub](https://github.com/laishulu/macism/releases) 下载可执行文件
     
 ## 使用方法
-### 获取当前输入源
+### 显示版本
+```sh
+macism --version
+```
+### 显示前输入源
 ```sh
 macism
 ```
