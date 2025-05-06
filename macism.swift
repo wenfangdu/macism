@@ -6,23 +6,30 @@ struct MacISM {
         // Initialize input sources
         InputSourceManager.initialize()
 
+        if CommandLine.arguments.contains(where: { arg in
+            arg.caseInsensitiveCompare("--version") == .orderedSame
+        }) {
+            print("v3.0.7")
+            return
+        }
+
         if CommandLine.arguments.count == 1 {
             let currentSource = InputSourceManager.getCurrentSource()
             print(currentSource.id)
         } else {
             // Process command line arguments for flags
             let arguments = CommandLine.arguments
-            InputSourceManager.keyboardOnly = !arguments.contains { arg in
+            InputSourceManager.keyboardOnly = !arguments.contains(where: { arg in
                 arg.caseInsensitiveCompare("--noKeyboardOnly") == .orderedSame
-            }
+            })
 
-            let isLevel3 = arguments.contains { arg in
+            let isLevel3 = arguments.contains(where: { arg in
                 arg.caseInsensitiveCompare("--l3") == .orderedSame
-            }
+            })
 
-            let isLevel2 = arguments.contains { arg in
+            let isLevel2 = arguments.contains(where: { arg in
                 arg.caseInsensitiveCompare("--l2") == .orderedSame
-            }
+            })
 
             InputSourceManager.level = isLevel3 ? 3 : isLevel2 ? 2 : 1
 
