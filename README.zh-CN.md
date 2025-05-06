@@ -64,7 +64,7 @@ macism
   ```
 
 有一个可选的额外参数 `mSECONDS`，例如 `macism SOME_INPUT_SOURCE_ID mSECONDS`，默
-认为 `5`。对于级别 2 和 3，还会在屏幕右下角显示一个小的紫色条。 
+认为 `50`。对于级别 2 和 3，还会在屏幕右下角显示一个小的紫色条。 
 
 额外选项 `--noKeyboardOnly` 还将启用非键盘输入源。
 

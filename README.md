@@ -68,7 +68,7 @@ Try level 1, if it does not work, than try level 2, then level 3.
   ```
 
 An extra argument `mSECONDS` is optional. e.g. `macism SOME_INPUT_SOURCE_ID
-mSECONDS`, default to be `5`. For level 2 and 3, also show a small purple bar on
+mSECONDS`, default to be `50`. For level 2 and 3, also show a small purple bar on
 the bottom right of the screen.
 
 An extra option `--noKeyboardOnly` will also enable none-keyboard input

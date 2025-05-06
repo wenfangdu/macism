@@ -36,7 +36,7 @@ func simulateJapaneseKanaKeyPress(waitTimeMs: Int) {
     keyDownEvent.post(tap: .cghidEventTap)
 
     // Small delay to ensure the key down is processed before key up
-    let waitTime = waitTimeMs < 0 ? 5 : waitTimeMs
+    let waitTime = waitTimeMs < 0 ? 50 : waitTimeMs
     let waitTimeSeconds = Double(waitTime) / 1000.0
     Thread.sleep(forTimeInterval: waitTimeSeconds)
 
