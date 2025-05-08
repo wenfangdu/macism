@@ -42,39 +42,10 @@ class InputSource: Equatable {
             return
         }
 
-        switch InputSourceManager.level {
-        case 1:
-            simulateJapaneseKanaKeyPress(
-                waitTimeMs: InputSourceManager.waitTimeMs
-            )
-            TISSelectInputSource(tisInputSource)
-        case 2:
-            TISSelectInputSource(tisInputSource)
-            showTemporaryInputWindow(
-                waitTimeMs: InputSourceManager.waitTimeMs
-            )
-        case 3:
-            TISSelectInputSource(tisInputSource)
-            let process = Process()
-            process.executableURL = URL(
-                fileURLWithPath: "/usr/bin/open"
-            )
-            process.arguments = [
-                "/Applications/TemporaryWindow.app"
-            ]
-            process.environment = [
-                "MACISM_WAIT_TIME_MS":
-                    String(InputSourceManager.waitTimeMs)
-            ]
-            do {
-                try process.run()
-            } catch {
-                print("Error launching " +
-                      "TemporaryWindow.app: \(error)")
-            }
-        default:
-            break
-        }
+        TISSelectInputSource(tisInputSource)
+        showTemporaryInputWindow(
+          waitTimeMs: InputSourceManager.waitTimeMs
+        )
     }
 }
 
@@ -82,7 +53,6 @@ class InputSourceManager {
     static var inputSources: [InputSource] = []
     static var waitTimeMs: Int = -1  // less than 0 means using default
     static var level: Int = 1
-    static var keyboardOnly: Bool = true
 
     static func initialize() {
         let inputSourceList = TISCreateInputSourceList(
@@ -91,8 +61,6 @@ class InputSourceManager {
 
         inputSources = inputSourceList
             .filter {
-                $0.category ==
-                    TISInputSource.Category.keyboardInputSource &&
                 $0.isSelectable
             }
             .map { InputSource(tisInputSource: $0) }
