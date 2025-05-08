@@ -26,6 +26,13 @@ func createWindow(x: CGFloat, y: CGFloat, width: CGFloat,
 
 // Function to show a temporary window with text input focus
 func showTemporaryInputWindow(waitTimeMs: Int) {
+    // skip
+    if waitTimeMs == 0 {
+        return
+    }
+    // Handle wait time and app termination
+    let waitTime = waitTimeMs < 0 ? 1 : waitTimeMs
+
     let app = NSApplication.shared
     app.setActivationPolicy(.accessory)
     // Get main screen dimensions to position window in bottom-right
@@ -43,8 +50,6 @@ func showTemporaryInputWindow(waitTimeMs: Int) {
 
     // Force app to activate and take focus, ignoring other apps
     app.activate(ignoringOtherApps: true)
-    // Handle wait time and app termination
-    let waitTime = waitTimeMs < 0 ? 1 : waitTimeMs
     let waitTimeSeconds = TimeInterval(waitTime) / 1000.0
     DispatchQueue.main.asyncAfter(deadline: .now() + waitTimeSeconds) {
         // Terminate the application

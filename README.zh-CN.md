@@ -42,9 +42,16 @@ macism --version
 macism
 ```
 ### 切换输入源
-  ```
-  macism SOME_INPUT_SOURCE_ID
-  ```
+#### 切换，并**规避**该 MacOS bug
+若输入源**会触发**该 bug 时，下列命令可以稳定切换：
+```
+macism SOME_INPUT_SOURCE_ID
+```
+#### 切换，**不规避**该 MacOS bug
+若输入源**不会**触发该 bug 时，下列命令体验更好：
+```
+macism SOME_INPUT_SOURCE_ID 0
+```
 ## 致谢
 - [LuSrackhall](https://github.com/LuSrackhall) 在此[讨
   论](https://github.com/rime/squirrel/issues/866#issuecomment-2800561092)中提供

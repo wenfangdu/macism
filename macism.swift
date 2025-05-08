@@ -9,7 +9,7 @@ struct MacISM {
         if CommandLine.arguments.contains(where: { arg in
             arg.caseInsensitiveCompare("--version") == .orderedSame
         }) {
-            print("v3.0.9")
+            print("v3.0.10")
             return
         }
 
@@ -35,6 +35,14 @@ struct MacISM {
             ) else {
                 print("Input source \(filteredArgs[1]) does not exist!")
                 return
+            }
+
+            // Set wait time if provided
+            if filteredArgs.count == 3, let waitTime = Int(filteredArgs[2]) {
+                // ignore waitTime of none-zero
+                if waitTime == 0 {
+                    InputSourceManager.waitTimeMs = waitTime
+                }
             }
 
             dstSource.select()

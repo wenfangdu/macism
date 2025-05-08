@@ -36,8 +36,7 @@ class InputSource: Equatable {
             return
         }
         // fcitx and non-CJKV don't need special treat
-        if !self.isCJKV ||
-           self.id == "org.fcitx.inputmethod.Fcitx5.fcitx5" {
+        if !self.isCJKV {
             TISSelectInputSource(tisInputSource)
             return
         }

@@ -46,10 +46,14 @@ macism --version
 macism
 ```
 ### Switch input source
+#### Switch, with workaround for the MacOS bug
 ```
 macism SOME_INPUT_SOURCE_ID
 ```
-
+#### Switch, without workaround for the MacOS bug
+```
+macism SOME_INPUT_SOURCE_ID 0
+```
 ## Thanks
 - [LuSrackhall](https://github.com/LuSrackhall) for his key insight in this
   [discussion](
