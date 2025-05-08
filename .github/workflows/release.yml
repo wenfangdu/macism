@@ -84,5 +84,5 @@ jobs:
           files: |
             macism-x86_64/macism-x86_64
             macism-arm64/macism-arm64
-            TemporaryWindow-x86_64/TemporaryWindow-x86_64.zip
-            TemporaryWindow-arm64/TemporaryWindow-arm64.zip
+            # TemporaryWindow-x86_64/TemporaryWindow-x86_64.zip
+            # TemporaryWindow-arm64/TemporaryWindow-arm64.zip
